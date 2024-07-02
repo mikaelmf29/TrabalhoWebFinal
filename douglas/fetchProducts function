@@ -1,0 +1,16 @@
+async function fetchProducts(search = '') {
+    const response = await fetch(`search_products.php?search=${search}`);
+    const products = await response.json();
+    const productList = document.getElementById('product-list');
+    productList.innerHTML = '';
+    products.forEach(product => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <span>ID: ${product.id}</span>
+            <input type="text" value="${product.nome}" data-id="${product.id}" data-field="nome" onblur="updateProduct(this)">
+            <input type="text" value="${product.marca}" data-id="${product.id}" data-field="marca" onblur="updateProduct(this)">
+            <button onclick="deleteProduct(${product.id})">Excluir</button>
+        `;
+        productList.appendChild(li);
+    });
+}
